@@ -1,0 +1,58 @@
+Last login: Mon Sep  8 04:42:25 on ttys000
+sphurtibandappasasture@SPHURTIs-MacBook-Air ~ % sqlite3 Task4.db
+SQLite version 3.43.2 2023-10-10 13:08:14
+Enter ".help" for usage hints.
+sqlite> -- Step 1: Drop old table if exists
+sqlite> DROP TABLE IF EXISTS Students;
+sqlite> 
+sqlite> -- Step 2: Create Students table
+sqlite> CREATE TABLE Students (
+(x1...>     StudentID INTEGER PRIMARY KEY,
+(x1...>     Name TEXT NOT NULL,
+(x1...>     MathScore INT,
+(x1...>     TotalScore INT
+(x1...> );
+sqlite> 
+sqlite> -- Step 3: Insert sample data
+sqlite> INSERT INTO Students (Name, MathScore, TotalScore) VALUES
+   ...> ('Aaryan', 85, 250),
+   ...> ('Sana', 90, 260),
+   ...> ('Rohan', 70, 220),
+   ...> ('Meera', 95, 280),
+   ...> ('Ishaan', 88, 240),
+   ...> ('Neha', 90, 260),
+   ...> ('Vikram', 75, 230),
+   ...> ('Anaya', 65, 210);
+sqlite> 
+sqlite> -- Step 4: Rank Students by Total Scores
+sqlite> SELECT 
+   ...>     StudentID,
+   ...>     Name,
+   ...>     TotalScore,
+   ...>     RANK() OVER (ORDER BY TotalScore DESC) AS Rank
+   ...> FROM Students;
+4|Meera|280|1
+2|Sana|260|2
+6|Neha|260|2
+1|Aaryan|250|4
+5|Ishaan|240|5
+7|Vikram|230|6
+3|Rohan|220|7
+8|Anaya|210|8
+sqlite> 
+sqlite> -- Step 5: Running Totals of Math Scores
+sqlite> SELECT 
+   ...>     StudentID,
+   ...>     Name,
+   ...>     MathScore,
+   ...>     SUM(MathScore) OVER (ORDER BY StudentID) AS RunningTotal
+   ...> FROM Students;
+1|Aaryan|85|85
+2|Sana|90|175
+3|Rohan|70|245
+4|Meera|95|340
+5|Ishaan|88|428
+6|Neha|90|518
+7|Vikram|75|593
+8|Anaya|65|658
+sqlite> 
